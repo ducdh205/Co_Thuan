@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { roundRectPath } from './canvas.js';
 
 // Vẽ chữ lên canvas → texture. Gọi sau khi document.fonts.load() xong để dấu tiếng Việt hiển thị đúng.
 export function makeTextTexture(text, { font = "600 64px 'Be Vietnam Pro', sans-serif", color = '#ffffff', bg = null, width, height, padding = 24, shadow = null } = {}) {
@@ -15,8 +16,7 @@ export function makeTextTexture(text, { font = "600 64px 'Be Vietnam Pro', sans-
   if (bg) {
     ctx.fillStyle = bg;
     const r = Math.min(h / 2, 28);
-    ctx.beginPath();
-    ctx.roundRect(0, 0, w, h, r);
+    roundRectPath(ctx, 0, 0, w, h, r);
     ctx.fill();
   }
   ctx.font = font;

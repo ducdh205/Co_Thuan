@@ -21,7 +21,7 @@ function ensureMusic() {
 }
 
 function updateMusicButton() {
-  $('music').textContent = music && music.playing ? '🔊' : '🔇';
+  $('music').setAttribute('aria-pressed', music && music.playing ? 'true' : 'false');
 }
 
 async function loadWorld() {

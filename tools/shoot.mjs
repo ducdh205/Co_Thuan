@@ -32,7 +32,13 @@ let ws;
 try {
   const portFile = join(profile, 'DevToolsActivePort');
   for (let i = 0; i < 100 && !existsSync(portFile); i++) await sleep(100);
-  const devPort = readFileSync(portFile, 'utf8').split('\n')[0].trim();
+  // Chrome có thể đang ghi dở file (EBUSY trên Windows / nội dung rỗng) → thử lại
+  let devPort = '';
+  for (let i = 0; i < 50 && !devPort; i++) {
+    try { devPort = readFileSync(portFile, 'utf8').split('\n')[0].trim(); } catch {}
+    if (!devPort) await sleep(100);
+  }
+  if (!devPort) throw new Error('Chrome không mở cổng DevTools');
   const targets = await (await fetch(`http://127.0.0.1:${devPort}/json`)).json();
   const page = targets.find((t) => t.type === 'page');
   ws = new WebSocket(page.webSocketDebuggerUrl);

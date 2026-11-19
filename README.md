@@ -26,9 +26,9 @@ Không có file → trang tự chơi một giai điệu hộp nhạc nhẹ nhàn
 1. Tạo một repository mới trên GitHub (ví dụ `thiep-co-thuan`), rồi đẩy code lên:
    ```bash
    git remote add origin https://github.com/<tên-tài-khoản>/thiep-co-thuan.git
-   git push -u origin master
+   git push -u origin main
    ```
-2. Trên GitHub: **Settings → Pages → Build and deployment → Source: Deploy from a branch**, chọn branch `master`, thư mục `/ (root)`, bấm **Save**.
+2. Trên GitHub: **Settings → Pages → Build and deployment → Source: Deploy from a branch**, chọn branch `main`, thư mục `/ (root)`, bấm **Save**.
 3. Đợi 1–2 phút, link sẽ có dạng: `https://<tên-tài-khoản>.github.io/thiep-co-thuan/`
 4. **Ảnh xem trước khi gửi qua Zalo/Messenger:** các ứng dụng chat cần đường dẫn ảnh đầy đủ. Sau khi có link, mở `index.html`, sửa dòng
    ```html

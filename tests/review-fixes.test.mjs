@@ -13,7 +13,7 @@ test('google fonts stylesheet is non-blocking', () => {
 
 // Important 4: nút nhạc không được nói dối là đang phát
 test('music button starts in the off state', () => {
-  assert.match(html, /id="music"[^>]*>🔇</);
+  assert.match(html, /id="music"[^>]*aria-pressed="false"/);
 });
 
 // Important 6: màn ngang thấp — thiệp không bị nút che

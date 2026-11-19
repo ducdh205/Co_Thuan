@@ -1,5 +1,6 @@
 // Dựng toàn bộ thế giới 3D. Được import động từ main.js để lỗi CDN có thể bắt được → thiệp 2D.
 import { createStage } from '../stage.js';
+import { fontsReady } from '../fonts.js';
 import { createSky } from './sky.js';
 import { createSea } from './sea.js';
 import { createBoat } from './boat.js';
@@ -18,11 +19,7 @@ export const PLACES = {
 };
 
 export async function buildWorld(canvas, quality) {
-  await Promise.all([
-    document.fonts.load("700 64px 'Be Vietnam Pro'"),
-    document.fonts.load("600 64px 'Be Vietnam Pro'"),
-    document.fonts.load("700 64px 'Dancing Script'"),
-  ]).catch(() => {});
+  await fontsReady();
 
   const stage = await createStage(canvas, quality);
   const sky = createSky();
