@@ -35,7 +35,8 @@ export function createSky() {
   const dome = new THREE.Mesh(new THREE.SphereGeometry(900, 32, 16), mat);
   group.add(dome);
 
-  const sun = new THREE.Mesh(new THREE.CircleGeometry(26, 48), new THREE.MeshBasicMaterial({ color: '#fff6c4', fog: false }));
+  const sun = new THREE.Sprite(new THREE.SpriteMaterial({ map: makeGlowTexture('#fff6c4'), transparent: true, depthWrite: false, fog: false }));
+  sun.scale.set(80, 80, 1);
   const glow = new THREE.Sprite(new THREE.SpriteMaterial({ map: makeGlowTexture('#ffe08a'), transparent: true, depthWrite: false, fog: false, blending: THREE.AdditiveBlending, opacity: 0.9 }));
   glow.scale.set(190, 190, 1);
   const sunPivot = new THREE.Group();
@@ -45,7 +46,6 @@ export function createSky() {
   function setProgress(p) {
     const k = THREE.MathUtils.clamp(p, 0, 1);
     sunPivot.position.set(260, THREE.MathUtils.lerp(-20, 150, k), -720);
-    sunPivot.lookAt(0, 0, 0);
     uniforms.light.value = k;
   }
   setProgress(0.25);

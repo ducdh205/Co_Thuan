@@ -5,10 +5,14 @@ import { createSea } from './sea.js';
 import { createBoat } from './boat.js';
 import { createLighthouse } from './lighthouse.js';
 import { createKnowledgeLights } from './lights.js';
+import { createIsland } from './island.js';
+import { createStorm } from './storm.js';
 
 export const PLACES = {
   boatStart: [0, 0, 0],
   lighthouse: [-30, 0, -40],
+  island: [25, 0, -60],
+  storm: [5, 0, -100],
 };
 
 export async function buildWorld(canvas, quality) {
@@ -24,12 +28,17 @@ export async function buildWorld(canvas, quality) {
   const boat = createBoat();
   const lighthouse = createLighthouse();
   const lights = createKnowledgeLights(quality.sparkCount);
+  const island = createIsland();
+  const storm = createStorm({ hemi: stage.hemi, sunLight: stage.sunLight });
+  island.group.position.set(...PLACES.island);
+  storm.group.position.set(...PLACES.storm);
+  stage.scene.add(island.group, storm.group);
 
   boat.group.position.set(...PLACES.boatStart);
   lighthouse.group.position.set(...PLACES.lighthouse);
   stage.scene.add(sky.group, sea.group, boat.group, lighthouse.group, lights.group);
 
-  const world = { stage, sky, sea, boat, lighthouse, lights, quality };
+  const world = { stage, sky, sea, boat, lighthouse, lights, island, storm, quality };
 
   stage.onTick((dt, t) => {
     sky.follow(stage.camera);
@@ -37,6 +46,8 @@ export async function buildWorld(canvas, quality) {
     boat.bob(t, sea.waveY);
     lighthouse.update(dt);
     lights.update(t);
+    island.update(dt);
+    storm.update(dt);
     for (const fn of world.extraTicks || []) fn(dt, t);
   });
   return world;
