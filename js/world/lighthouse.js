@@ -40,7 +40,7 @@ export function createLighthouse() {
 
   // Tia sáng: hình nón mở, đỉnh ở đèn, hướng theo +x của pivot
   const beamLen = 130;
-  const beamGeo = new THREE.ConeGeometry(14, beamLen, 24, 1, true);
+  const beamGeo = new THREE.ConeGeometry(9, beamLen, 24, 1, true);
   beamGeo.translate(0, -beamLen / 2, 0);
   beamGeo.rotateZ(Math.PI / 2);
   const beamMat = new THREE.ShaderMaterial({
@@ -69,7 +69,7 @@ export function createLighthouse() {
   function setOn(v) {
     state.on = v;
     lampMat.emissiveIntensity = 0.3 + 2.2 * v;
-    beamMat.opacity = 0.3 * v;
+    beamMat.opacity = 0.22 * v;
     halo.material.opacity = 0.7 * v;
     light.intensity = 60 * v;
   }
@@ -86,7 +86,7 @@ export function createLighthouse() {
   }
 
   function update(dt) {
-    if (state.spin) pivot.rotation.y += dt * 0.6;
+    if (state.spin) pivot.rotation.y = (pivot.rotation.y + dt * 0.6) % (Math.PI * 2);
   }
 
   return { group, lamp, beam, pivot, state, setOn, aimAngle, update };

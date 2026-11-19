@@ -12,7 +12,7 @@ import { createCity } from './city.js';
 export const PLACES = {
   boatStart: [0, 0, 0],
   lighthouse: [-30, 0, -40],
-  island: [25, 0, -60],
+  island: [34, 0, -56],
   storm: [5, 0, -100],
   city: [0, 1, -140],
 };
