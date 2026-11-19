@@ -1,8 +1,13 @@
-import { SCENES } from './config.js';
+import { SCENES, WATCH_SECONDS } from './config.js';
 
 export function totalDuration(scenes = SCENES) {
   const last = scenes[scenes.length - 1];
   return last.start + last.duration;
+}
+
+// Hệ số tốc độ phát để cả phim kết thúc trong WATCH_SECONDS giây thực.
+export function playbackRate(scenes = SCENES, watch = WATCH_SECONDS) {
+  return Math.max(1, totalDuration(scenes) / watch);
 }
 
 export function sceneAt(t, scenes = SCENES) {

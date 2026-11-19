@@ -1,6 +1,7 @@
 import test from 'node:test'; import assert from 'node:assert/strict';
 import { SCENES, CARD } from '../js/config.js';
-import { totalDuration, sceneAt, parseParams } from '../js/timing.js';
+import { totalDuration, sceneAt, parseParams, playbackRate } from '../js/timing.js';
+test('watch time at most 60s', () => assert.ok(totalDuration() / playbackRate() <= 60));
 test('total is 95s', () => assert.equal(totalDuration(), 95));
 test('scenes contiguous', () => SCENES.slice(1).forEach((s,i)=>assert.equal(s.start, SCENES[i].start+SCENES[i].duration)));
 test('sceneAt inside', () => assert.deepEqual(sceneAt(30), { id:'island', index:2, local:3 }));

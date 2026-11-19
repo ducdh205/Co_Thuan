@@ -22,4 +22,7 @@ export const CARD = {
   footer: 'return 0; // cảm ơn cô',
 };
 
+// Thời lượng xem thực tế tối đa (giây). Dòng thời gian vẫn viết theo "giây kịch bản" 0–95 và được tua nhanh cho vừa.
+export const WATCH_SECONDS = 60;
+
 export const LIMITS = { loadTimeoutMs: 12000, maxPixelRatio: 2 };

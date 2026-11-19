@@ -2,7 +2,7 @@
 import * as THREE from 'three';
 import { gsap } from 'gsap';
 import { SCENES } from './config.js';
-import { totalDuration, sceneAt } from './timing.js';
+import { totalDuration, sceneAt, playbackRate } from './timing.js';
 import { cameraKeys, boatKeys } from './keys.js';
 
 export { cameraKeys, boatKeys };
@@ -128,6 +128,7 @@ export function buildFilm(world, { captionEl, cardEl, controlsEl, onEnd }) {
   tl.to(L, { reveal: 0, duration: 0.8, ease: 'power2.in' }, 90.2);
   tl.to(lightState, { links: 0, duration: 0.6, onUpdate: applyLights }, 87);
   if (tl.duration() < total) tl.to({}, { duration: total - tl.duration() }, tl.duration());
+  tl.timeScale(playbackRate()); // tua nhanh: cả phim gói gọn trong WATCH_SECONDS giây
 
   // --- Lớp HTML suy ra từ thời gian (an toàn khi tua/xem lại) ------------------
   let lastCaption = null;
