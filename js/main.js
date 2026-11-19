@@ -32,6 +32,12 @@ function applyDebug(w, mode) {
     cam.position.set(48, 14, -28);
     cam.lookAt(22, 3, -58);
   }
+  if (mode === "city" || mode === "city-street") {
+    w.city.setGrow(1);
+    w.lighthouse.setOn(1);
+    if (mode === "city") { cam.position.set(0, 125, -95); cam.lookAt(0, 0, -138); }
+    else { cam.position.set(22, 9, -96); cam.lookAt(0, 7, -125); }
+  }
   if (mode === "storm" || mode === "rainbow") {
     w.storm.setStorm(mode === "storm" ? 1 : 0);
     w.storm.setRainbow(mode === "rainbow" ? 1 : 0);

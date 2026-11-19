@@ -7,12 +7,14 @@ import { createLighthouse } from './lighthouse.js';
 import { createKnowledgeLights } from './lights.js';
 import { createIsland } from './island.js';
 import { createStorm } from './storm.js';
+import { createCity } from './city.js';
 
 export const PLACES = {
   boatStart: [0, 0, 0],
   lighthouse: [-30, 0, -40],
   island: [25, 0, -60],
   storm: [5, 0, -100],
+  city: [0, 1, -140],
 };
 
 export async function buildWorld(canvas, quality) {
@@ -32,13 +34,15 @@ export async function buildWorld(canvas, quality) {
   const storm = createStorm({ hemi: stage.hemi, sunLight: stage.sunLight });
   island.group.position.set(...PLACES.island);
   storm.group.position.set(...PLACES.storm);
-  stage.scene.add(island.group, storm.group);
+  const city = createCity();
+  city.group.position.set(...PLACES.city);
+  stage.scene.add(island.group, storm.group, city.group);
 
   boat.group.position.set(...PLACES.boatStart);
   lighthouse.group.position.set(...PLACES.lighthouse);
   stage.scene.add(sky.group, sea.group, boat.group, lighthouse.group, lights.group);
 
-  const world = { stage, sky, sea, boat, lighthouse, lights, island, storm, quality };
+  const world = { stage, sky, sea, boat, lighthouse, lights, island, storm, city, quality };
 
   stage.onTick((dt, t) => {
     sky.follow(stage.camera);
@@ -48,6 +52,7 @@ export async function buildWorld(canvas, quality) {
     lights.update(t);
     island.update(dt);
     storm.update(dt);
+    city.update(t);
     for (const fn of world.extraTicks || []) fn(dt, t);
   });
   return world;
