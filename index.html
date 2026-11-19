@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Gửi cô Thuận — 20/11</title>
+  <meta name="description" content="Một món quà nhỏ từ Thu Phương">
+  <meta name="theme-color" content="#ffc3a0">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%81%3C/text%3E%3C/svg%3E">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Gửi cô Thuận — 20/11">
+  <meta property="og:description" content="Một món quà nhỏ từ Thu Phương">
+  <meta property="og:image" content="assets/og.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700&family=Dancing+Script:wght@600;700&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+  <script>
+    // Lưới an toàn: nếu module không chạy được (CDN lỗi, trình duyệt cũ) → thiệp 2D.
+    window.__ready = false;
+    window.__showFallback = function () {
+      document.documentElement.classList.add('is-fallback');
+    };
+    setTimeout(function () { if (!window.__ready) window.__showFallback(); }, 12000);
+  </script>
+  <script nomodule>window.__showFallback();</script>
+  <script async src="https://cdn.jsdelivr.net/npm/es-module-shims@1.10.0/dist/es-module-shims.js"></script>
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/",
+      "gsap": "https://cdn.jsdelivr.net/npm/gsap@3.12.5/index.js"
+    }
+  }
+  </script>
+</head>
+<body>
+  <canvas id="scene" aria-hidden="true"></canvas>
+
+  <div id="fallback" aria-hidden="true">
+    <div class="fb-sun"></div>
+    <div class="fb-lighthouse"><span class="fb-lamp"></span></div>
+    <div class="fb-sea"></div>
+    <div class="fb-dots"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  </div>
+
+  <div id="loading" class="overlay">
+    <div class="spinner"></div>
+    <p>Đang chuẩn bị món quà…</p>
+  </div>
+
+  <div id="start" class="overlay" hidden>
+    <p class="start-to">Gửi cô Thuận</p>
+    <button id="open-gift" type="button">🎁 Mở quà</button>
+    <p class="start-hint">Bật âm thanh để nghe nhạc nhé</p>
+  </div>
+
+  <p id="caption" aria-live="polite"></p>
+
+  <article id="card" hidden>
+    <div class="card-star" aria-hidden="true">★</div>
+    <p class="card-date">20 · 11</p>
+    <h1 class="greeting">Kính gửi cô Thuận</h1>
+    <p class="body">Nhân ngày Nhà giáo Việt Nam 20/11, em xin cảm ơn cô — người đã dạy em những dòng C đầu tiên và nay tiếp tục dẫn đường cho đồ án tốt nghiệp của em. Chúc cô luôn mạnh khỏe, hạnh phúc và mãi là ngọn hải đăng của bao thế hệ học trò.</p>
+    <p class="signature">Em, Thu Phương</p>
+    <p class="footer"><code>return 0; // cảm ơn cô</code></p>
+  </article>
+
+  <div id="controls" hidden>
+    <button id="replay" type="button">↻ Xem lại</button>
+    <button id="music" type="button" aria-label="Bật/tắt nhạc">🔊</button>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
