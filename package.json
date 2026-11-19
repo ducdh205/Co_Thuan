@@ -1,0 +1,6 @@
+{
+  "name": "thiep-20-11-co-thuan",
+  "private": true,
+  "type": "module",
+  "scripts": { "test": "node --test tests/" }
+}
