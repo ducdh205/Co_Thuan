@@ -52,7 +52,9 @@ export function createLighthouse() {
     fragmentShader: /* glsl */`
       uniform float opacity; uniform vec3 color; uniform float len;
       varying float vD;
-      void main() { float k = 1.0 - clamp(vD / len, 0.0, 1.0); gl_FragColor = vec4(color, opacity * k * k); }`,
+      void main() { float k = 1.0 - clamp(vD / len, 0.0, 1.0); gl_FragColor = vec4(color, opacity * k * k);
+        #include <colorspace_fragment>
+      }`,
   });
   Object.defineProperty(beamMat, 'opacity', { get: () => beamMat.uniforms.opacity.value, set: (v) => { if (beamMat.uniforms) beamMat.uniforms.opacity.value = v; } });
   const beam = new THREE.Mesh(beamGeo, beamMat);

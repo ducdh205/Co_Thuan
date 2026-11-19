@@ -52,14 +52,25 @@ export async function createStage(canvas, quality) {
   const ticks = [];
   const clock = new THREE.Clock();
   let elapsed = 0;
+  // Bảo vệ hiệu năng: đo FPS trong 3 giây (sau 1 giây khởi động); dưới 30 → tắt bloom, giảm độ phân giải
+  const fps = { frames: 0, time: 0, done: false };
   function frame() {
-    const dt = Math.min(clock.getDelta(), 0.1);
+    const raw = clock.getDelta();
+    const dt = Math.min(raw, 0.1);
     elapsed += dt;
+    if (!fps.done && elapsed > 1) {
+      fps.frames++; fps.time += raw;
+      if (fps.time >= 3) {
+        fps.done = true;
+        const avg = fps.frames / fps.time;
+        if (avg < 30 && composer) { console.info("[stage] FPS", avg.toFixed(1), "→ giảm chất lượng"); stageApi.degrade(); }
+      }
+    }
     for (const fn of ticks) fn(dt, elapsed);
     if (composer) composer.render(); else renderer.render(scene, camera);
   }
 
-  return {
+  const stageApi = {
     renderer, scene, camera, sunLight, hemi,
     get bloom() { return !!composer; },
     onTick(fn) { ticks.push(fn); },
@@ -69,4 +80,5 @@ export async function createStage(canvas, quality) {
     renderOnce() { frame(); },
     degrade() { composer = null; renderer.setPixelRatio(Math.min(quality.pixelRatio, 1.25)); resize(); },
   };
+  return stageApi;
 }

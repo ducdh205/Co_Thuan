@@ -32,11 +32,12 @@ export function buildFilm(world, { captionEl, cardEl, controlsEl, onEnd }) {
   stage.onTick(() => {
     look.set(rig.lx, rig.ly, rig.lz);
     cam.position.set(rig.px, rig.py, rig.pz);
-    if (portrait.k !== 1) {
+    const fade = 1 - THREE.MathUtils.smoothstep(tl.time(), 84, 88); // không lùi máy ở cảnh thiệp
+    if (portrait.k !== 1 && fade > 0) {
       // Màn dọc: lùi máy quay ra xa theo hướng nhìn để giữ chủ thể trong khung
       dir.subVectors(cam.position, look);
       const dist = Math.min(dir.length(), 60);
-      dir.normalize().multiplyScalar(dist * (portrait.k - 1));
+      dir.normalize().multiplyScalar(dist * (portrait.k - 1) * fade);
       cam.position.add(dir);
     }
     cam.lookAt(look);
@@ -116,6 +117,7 @@ export function buildFilm(world, { captionEl, cardEl, controlsEl, onEnd }) {
   tl.set(city.group, { visible: true }, 63.5);
   tl.fromTo(city.group.position, { y: -7 }, { y: 1, duration: 3, ease: "power2.out" }, 63.5);
   tl.to(city.labels.map((l) => l.material), { opacity: 0, duration: 1 }, 86.3);
+  tl.to(city.group.position, { y: -16, duration: 3, ease: "power2.in" }, 87.5); // chìm xuống sau màn pháo hoa
   const cg = { g: 0 };
   tl.fromTo(cg, { g: 0 }, { g: 1, duration: 8, ease: 'power1.out', onUpdate: () => city.setGrow(cg.g) }, 65);
 

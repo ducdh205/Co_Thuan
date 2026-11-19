@@ -30,6 +30,7 @@ export function createSky() {
         c = mix(c, zenith, smoothstep(0.55, 1.0, h) * 0.6);
         c = mix(c, vec3(1.0, 0.97, 0.9), light * 0.18 * (1.0 - smoothstep(0.0, 0.6, h)));
         gl_FragColor = vec4(c, 1.0);
+        #include <colorspace_fragment>
       }`,
   });
   const dome = new THREE.Mesh(new THREE.SphereGeometry(900, 32, 16), mat);
