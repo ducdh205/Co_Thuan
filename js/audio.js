@@ -68,6 +68,8 @@ function fileMusic(src) {
 }
 
 function synthMusic() {
+  // iOS 17+: phát cả khi gạt nút im lặng
+  try { if (typeof navigator !== 'undefined' && navigator.audioSession) navigator.audioSession.type = 'playback'; } catch {}
   const Ctx = window.AudioContext || window.webkitAudioContext;
   const ctx = new Ctx();
   const master = ctx.createGain();

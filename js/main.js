@@ -2,6 +2,7 @@ import { parseParams } from './timing.js';
 import { pickQuality } from './quality.js';
 import { boot } from './boot.js';
 import { createMusic, probeMusic } from './audio.js';
+import { visibilityActions } from './visibility.js';
 
 const params = parseParams(location.search);
 const debug = new URLSearchParams(location.search).get('debug');
@@ -45,7 +46,6 @@ async function loadWorld() {
   await musicProbe;
   if (debug) applyDebug(world, debug);
   else if (params.seek !== null) film.seek(params.seek);
-  world.stage.start();
 }
 
 function onStart() {
@@ -68,14 +68,15 @@ $('music').addEventListener('click', () => {
 });
 
 document.addEventListener('visibilitychange', () => {
-  if (!started || !film) return;
-  if (document.hidden) {
-    film.pause();
-    if (music) music.pause();
-  } else if (!film.ended && params.seek === null && !debug) {
-    film.resume();
-    if (music && !music.muted) music.play();
-  }
+  const act = visibilityActions({
+    hidden: document.hidden, started: started && !!film, ended: !!film && film.ended,
+    muted: !music || music.muted, frozen: params.seek !== null || !!debug,
+  });
+  if (act.film === 'pause') film.pause();
+  if (act.film === 'resume') film.resume();
+  if (music && act.music === 'pause') music.pause();
+  if (music && act.music === 'play') music.play();
+  updateMusicButton();
 });
 
 function applyDebug(w, mode) {
@@ -113,4 +114,4 @@ function applyDebug(w, mode) {
   }
 }
 
-boot({ params, loadWorld, onStart });
+boot({ params, loadWorld, onStart, onReady: () => world.stage.start() });

@@ -191,6 +191,19 @@ body {
   100% { transform: translateY(-110vh) scale(1.1); opacity: 0; }
 }
 
+/* Màn ngang thấp (điện thoại xoay ngang): thiệp nằm trên hàng nút */
+@media (max-height: 520px) {
+  #card {
+    top: calc(50% - 30px);
+    max-height: calc(100dvh - 96px);
+    padding: 18px 26px;
+  }
+  #card .greeting { font-size: 30px; margin-bottom: 8px; }
+  #card .body { font-size: 14px; line-height: 1.55; margin-bottom: 10px; }
+  #card .signature { font-size: 24px; margin-bottom: 8px; }
+  #controls { bottom: 10px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .fb-dots i, .fb-sea::before, #open-gift, .spinner { animation: none; }
 }

@@ -30,7 +30,7 @@ function leave(el) {
   setTimeout(() => { el.hidden = true; el.classList.remove('leaving'); }, 800);
 }
 
-export async function boot({ params, onStart, loadWorld }) {
+export async function boot({ params, onStart, loadWorld, onReady, timeoutMs = LIMITS.loadTimeoutMs }) {
   fillCard($('card'));
   if (params.noWebGL || !hasWebGL()) { showFallback(); return 'fallback'; }
   let timer;
@@ -38,7 +38,7 @@ export async function boot({ params, onStart, loadWorld }) {
     if (params.forceFail) throw new Error('forcefail');
     await Promise.race([
       loadWorld(),
-      new Promise((_, reject) => { timer = setTimeout(() => reject(new Error('timeout')), LIMITS.loadTimeoutMs); }),
+      new Promise((_, reject) => { timer = setTimeout(() => reject(new Error('timeout')), timeoutMs); }),
     ]);
   } catch (err) {
     console.warn('[boot] chuyển sang thiệp 2D:', err && err.message);
@@ -47,7 +47,10 @@ export async function boot({ params, onStart, loadWorld }) {
   } finally {
     clearTimeout(timer);
   }
+  // Lưới an toàn trong index.html có thể đã bật thiệp 2D trước → không chạy 3D ngầm phía sau
+  if (document.documentElement.classList.contains('is-fallback')) return 'fallback';
   window.__ready = true;
+  if (onReady) onReady();
   $('loading').hidden = true;
   const start = $('start');
   const go = () => { leave(start); onStart(); };
